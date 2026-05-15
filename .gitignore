@@ -1,0 +1,92 @@
+# Dependencies - Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment Variables
+.env
+.env.local
+.env.production
+.env.development
+.env.test
+
+# Build Outputs
+dist/
+dist-ssr/
+build/
+.out/
+.next/
+.nuxt/
+
+# Vite Specific
+.vite/
+.vite-inspect/
+
+# Cache
+.cache/
+.parcel-cache/
+.turbo/
+*.cache
+
+# Testing
+coverage/
+.nyc_output/
+*.test.js
+*.spec.js
+__snapshots__/
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode-test/
+
+# Debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local Development
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Production Specific
+*.min.js
+*.min.css
+
+# System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.dll
+
+# React Specific
+.eslintcache
+*.tsbuildinfo
+
+# Application Specific
+public/uploads/
+temp/
+*.backup
+*.old
