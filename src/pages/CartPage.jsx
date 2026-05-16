@@ -1,15 +1,30 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, Minus, Plus } from 'lucide-react';
+import { Trash2, Minus, Plus, IndianRupee } from 'lucide-react';
 import { removeFromCart, updateQuantity, clearCart } from '../redux/slices/cartSlice';
 
 const CartPage = () => {
   const { items, total } = useSelector(state => state.cart);
+  const { user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Calculate totals in INR
+  const subtotal = total;
+  const tax = subtotal * 0.05; // 5% GST
+  const shippingCost = subtotal > 500 ? 0 : 49;
+  const grandTotal = subtotal + tax + shippingCost;
+
   const handleCheckout = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (user.role !== 'customer') {
+      toast.error('Only customers can checkout');
+      return;
+    }
     navigate('/checkout');
   };
 
@@ -17,7 +32,7 @@ const CartPage = () => {
     return (
       <div className="text-center py-12">
         <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
-        <Link to="/shop" className="btn-primary">
+        <Link to="/" className="btn-primary">
           Continue Shopping
         </Link>
       </div>
@@ -25,22 +40,23 @@ const CartPage = () => {
   }
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+    <div className="px-4 sm:px-0">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Shopping Cart</h1>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Cart Items */}
+        <div className="lg:flex-1">
           {items.map(item => (
-            <div key={item.productId} className="bg-white rounded-lg shadow-md p-4 mb-4 flex gap-4">
+            <div key={item.productId} className="bg-white rounded-lg shadow-md p-4 mb-4 flex flex-col sm:flex-row gap-4">
               <img 
                 src={item.image || 'https://via.placeholder.com/100'} 
                 alt={item.name}
-                className="w-24 h-24 object-cover rounded"
+                className="w-24 h-24 object-cover rounded mx-auto sm:mx-0"
               />
               <div className="flex-1">
-                <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-primary-600 font-bold mt-1">${item.price}</p>
-                <div className="flex items-center gap-3 mt-2">
+                <h3 className="font-semibold text-center sm:text-left">{item.name}</h3>
+                <p className="text-blue-600 font-bold mt-1 text-center sm:text-left">₹{item.price}</p>
+                <div className="flex items-center justify-center sm:justify-start gap-3 mt-2">
                   <button
                     onClick={() => dispatch(updateQuantity({ productId: item.productId, quantity: item.quantity - 1 }))}
                     className="p-1 rounded-md bg-gray-200 hover:bg-gray-300"
@@ -67,34 +83,42 @@ const CartPage = () => {
           
           <button
             onClick={() => dispatch(clearCart())}
-            className="text-red-600 hover:text-red-700 mt-4"
+            className="text-red-600 hover:text-red-700 mt-4 text-sm"
           >
             Clear Cart
           </button>
         </div>
         
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-md p-6">
+        {/* Order Summary */}
+        <div className="lg:w-96">
+          <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-            <div className="space-y-2 mb-4">
+            <div className="space-y-2">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>₹{total.toFixed(2)}</span>
+                <span>₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span>{total > 60 ? 'Free' : '₹5.99'}</span>
+                <span>{shippingCost === 0 ? 'Free' : `₹${shippingCost}`}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>GST (5%)</span>
+                <span>₹{tax.toFixed(2)}</span>
               </div>
               <div className="border-t pt-2 mt-2">
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total</span>
-                  <span>₹{(total)}</span>
+                  <span className="text-blue-600">₹{grandTotal.toFixed(2)}</span>
                 </div>
               </div>
             </div>
-            <button onClick={handleCheckout} className="btn-primary w-full">
+            <button onClick={handleCheckout} className="btn-primary w-full mt-4">
               Proceed to Checkout
             </button>
+            <p className="text-xs text-gray-500 text-center mt-3">
+              Secure payment powered by Stripe | UPI, Cards accepted
+            </p>
           </div>
         </div>
       </div>
