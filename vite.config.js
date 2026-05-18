@@ -1,36 +1,32 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 3000,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/api')
-      }
+export default {
+  name: "vendors-frontend",
+  version: 2,
+  buildCommand: "npm run build",
+  outputDirectory: "dist",
+  devCommand: "npm run dev",
+  installCommand: "npm install",
+  framework: "vite",
+  rewrites: [
+    {
+      source: "/(.*)",
+      destination: "/index.html"
     }
+  ],
+  images: {
+    sizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    domains: ["res.cloudinary.com", "picsum.photos"],
+    minimumCacheTTL: 60,
+    formats: ["image/avif", "image/webp"]
   },
-  build: {
-    outDir: 'dist',
-    sourcemap: false,
-    minify: 'terser',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          redux: ['@reduxjs/toolkit', 'react-redux'],
-          icons: ['lucide-react', 'react-icons'],
-          charts: ['recharts'],
-          stripe: ['@stripe/stripe-js', '@stripe/react-stripe-js']
-        }
-      }
+  headers: [
+    {
+      source: "/api/(.*)",
+      headers: [
+        { key: "Access-Control-Allow-Credentials", value: "true" },
+        { key: "Access-Control-Allow-Origin", value: "*" },
+        { key: "Access-Control-Allow-Methods", value: "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
+        { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" }
+      ]
     }
-  },
-  preview: {
-    port: 3000,
-    host: true
-  }
-})
+  ]
+};
