@@ -7,8 +7,9 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'http://localhost:5000',
-        changeOrigin: true
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
       }
     }
   },
@@ -21,10 +22,15 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
           redux: ['@reduxjs/toolkit', 'react-redux'],
-          ui: ['lucide-react', 'react-hot-toast'],
-          charts: ['recharts']
+          icons: ['lucide-react', 'react-icons'],
+          charts: ['recharts'],
+          stripe: ['@stripe/stripe-js', '@stripe/react-stripe-js']
         }
       }
     }
+  },
+  preview: {
+    port: 3000,
+    host: true
   }
 })

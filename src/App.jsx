@@ -21,15 +21,15 @@ import OrdersPage from './pages/OrdersPage';
 import StorePage from './pages/StorePage';
 
 // Vendor Pages
-import VendorDashboard from './pages/VendorDashboard';
-import VendorProducts from './pages/VendorProducts';
-import InventoryManagement from './pages/InventoryManagement';
-import VendorProfile from './pages/VendorProfile';
+import VendorDashboard from './pages/vendor/VendorDashboard';
+import VendorProducts from './pages/vendor/VendorProducts';
+import VendorProfile from './pages/vendor/VendorProfile';
+import InventoryManagement from './pages/vendor/InventoryManagement';
 
 // Admin Pages
-import AdminDashboard from './pages/AdminDashboard';
-import AdminVendors from './pages/AdminVendors';
-import AdminCustomers from './pages/AdminCustomers';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminVendors from './pages/admin/AdminVendors';
+import AdminCustomers from './pages/admin/AdminCustomers';
 
 function App() {
   const dispatch = useDispatch();
@@ -98,24 +98,24 @@ function App() {
             
             {/* Vendor Routes */}
             <Route path="/vendor/dashboard" element={
-              <ProtectedRoute allowedRoles={['vendor']}>
+              <ProtectedRoute allowedRoles={['vendor', 'super_admin']}>
                 <VendorDashboard />
               </ProtectedRoute>
             } />
             <Route path="/vendor/products" element={
-              <ProtectedRoute allowedRoles={['vendor']}>
+              <ProtectedRoute allowedRoles={['vendor', 'super_admin']}>
                 <VendorProducts />
-              </ProtectedRoute>
-            } />
-            <Route path="/vendor/inventory" element={
-              <ProtectedRoute allowedRoles={['vendor']}>
-                <InventoryManagement />
               </ProtectedRoute>
             } />
             <Route path="/vendor/profile" element={
               <ProtectedRoute allowedRoles={['vendor', 'super_admin']}>
-              <VendorProfile />
-             </ProtectedRoute>
+                <VendorProfile />
+              </ProtectedRoute>
+            } />
+            <Route path="/vendor/inventory" element={
+              <ProtectedRoute allowedRoles={['vendor', 'super_admin']}>
+                <InventoryManagement />
+              </ProtectedRoute>
             } />
             
             {/* Admin Routes */}

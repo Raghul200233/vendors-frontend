@@ -14,7 +14,7 @@
   ],
   "env": {
     "VITE_API_URL": "https://vendors-backend.onrender.com/api",
-    "VITE_STRIPE_PUBLIC_KEY": "@stripe_public_key"
+    "VITE_STRIPE_PUBLIC_KEY": "pk_test_51TXdTSKFTog7A4kfWFMJPalroSmH4GYLrJry4KDvQt6hXD4HvXdyu7wnH7d5BEHCb0V6MVYJVXzMlZJNzbENGhge00nyO60qWD"
   },
   "headers": [
     {
@@ -26,5 +26,8 @@
         { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" }
       ]
     }
-  ]
+  ],
+  "images": {
+    "domains": ["res.cloudinary.com", "picsum.photos"]
+  }
 }
