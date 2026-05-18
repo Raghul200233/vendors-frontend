@@ -21,15 +21,15 @@ import OrdersPage from './pages/OrdersPage';
 import StorePage from './pages/StorePage';
 
 // Vendor Pages
-import VendorDashboard from './pages/vendor/VendorDashboard';
-import VendorProducts from './pages/vendor/VendorProducts';
-import VendorProfile from './pages/vendor/VendorProfile';
-import InventoryManagement from './pages/vendor/InventoryManagement';
+import VendorDashboard from './pages/VendorDashboard';
+import VendorProducts from './pages/VendorProducts';
+import VendorProfile from './pages/VendorProfile';
+import InventoryManagement from './pages/InventoryManagement';
 
 // Admin Pages
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminVendors from './pages/admin/AdminVendors';
-import AdminCustomers from './pages/admin/AdminCustomers';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminVendors from './pages/AdminVendors';
+import AdminCustomers from './pages/AdminCustomers';
 
 function App() {
   const dispatch = useDispatch();
