@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from 'axios';
+import api from '../api/axios';  // Import your configured api instance
 import toast from 'react-hot-toast';
 import { clearCart } from '../redux/slices/cartSlice';
 import { useNavigate } from 'react-router-dom';
@@ -46,9 +46,9 @@ const CheckoutForm = () => {
       let paymentIntent;
       
       if (paymentMethod === 'upi') {
-        // Create payment intent for UPI
-        const { data } = await axios.post(
-          `${import.meta.env.VITE_API_URL}/orders/create-payment-intent`,
+        // Create payment intent for UPI - Using api instance
+        const { data } = await api.post(
+          '/orders/create-payment-intent',  // Remove base URL, api handles it
           { items, total: grandTotal },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -58,9 +58,9 @@ const CheckoutForm = () => {
         // For UPI, we'll simulate confirmation (in production, use UPI collect)
         toast.success('UPI payment initiated. Please check your UPI app.');
         
-        // Create order after UPI intent
-        await axios.post(
-          `${import.meta.env.VITE_API_URL}/orders`,
+        // Create order after UPI intent - Using api instance
+        await api.post(
+          '/orders',  // Remove base URL, api handles it
           {
             items,
             total: grandTotal,
@@ -75,9 +75,9 @@ const CheckoutForm = () => {
         dispatch(clearCart());
         navigate('/orders');
       } else {
-        // Card payment
-        const { data } = await axios.post(
-          `${import.meta.env.VITE_API_URL}/orders/create-payment-intent`,
+        // Card payment - Using api instance
+        const { data } = await api.post(
+          '/orders/create-payment-intent',  // Remove base URL, api handles it
           { items, total: grandTotal },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -96,8 +96,9 @@ const CheckoutForm = () => {
         if (error) {
           toast.error(error.message);
         } else if (confirmedIntent.status === 'succeeded') {
-          await axios.post(
-            `${import.meta.env.VITE_API_URL}/orders`,
+          // Create order after successful payment - Using api instance
+          await api.post(
+            '/orders',  // Remove base URL, api handles it
             {
               items,
               total: grandTotal,
@@ -114,7 +115,8 @@ const CheckoutForm = () => {
         }
       }
     } catch (error) {
-      toast.error('Payment failed. Please try again.');
+      console.error('Payment error:', error);
+      toast.error(error.response?.data?.message || 'Payment failed. Please try again.');
     } finally {
       setProcessing(false);
     }
