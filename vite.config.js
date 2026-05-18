@@ -1,32 +1,38 @@
-export default {
-  name: "vendors-frontend",
-  version: 2,
-  buildCommand: "npm run build",
-  outputDirectory: "dist",
-  devCommand: "npm run dev",
-  installCommand: "npm install",
-  framework: "vite",
-  rewrites: [
+{
+  "name": "vendors-frontend",
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "rewrites": [
     {
-      source: "/(.*)",
-      destination: "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
-  images: {
-    sizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    domains: ["res.cloudinary.com", "picsum.photos"],
-    minimumCacheTTL: 60,
-    formats: ["image/avif", "image/webp"]
-  },
-  headers: [
+  "headers": [
     {
-      source: "/api/(.*)",
-      headers: [
-        { key: "Access-Control-Allow-Credentials", value: "true" },
-        { key: "Access-Control-Allow-Origin", value: "*" },
-        { key: "Access-Control-Allow-Methods", value: "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-        { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" }
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+        }
       ]
     }
   ]
-};
+}
