@@ -13,6 +13,9 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false
-    })
+      serializableCheck: false,
+    }),
 });
+
+// Log initial state for debugging
+console.log('Store initialized:', store.getState());

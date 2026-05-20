@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';  // Added useState import
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { validateToken } from './redux/slices/authSlice';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import LoadingSpinner from './components/LoadingSpinner';  // Added semicolon
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -20,26 +21,38 @@ import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import StorePage from './pages/StorePage';
 
-// Vendor Pages
+// Vendor Pages - Fix these imports (remove './pages/' since they're in pages folder)
 import VendorDashboard from './pages/VendorDashboard';
 import VendorProducts from './pages/VendorProducts';
 import VendorProfile from './pages/VendorProfile';
 import InventoryManagement from './pages/InventoryManagement';
 
-// Admin Pages
+// Admin Pages - Fix these imports
 import AdminDashboard from './pages/AdminDashboard';
 import AdminVendors from './pages/AdminVendors';
 import AdminCustomers from './pages/AdminCustomers';
 
 function App() {
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { token } = useSelector(state => state.auth);
 
   useEffect(() => {
-    if (token) {
-      dispatch(validateToken());
-    }
+    const initApp = async () => {
+      console.log('App initializing...');
+      if (token) {
+        await dispatch(validateToken());
+      }
+      setLoading(false);
+      console.log('App initialized');
+    };
+    
+    initApp();
   }, [dispatch, token]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <Router>
