@@ -225,4 +225,5 @@ Connected to backend at VITE_API_URL
 
 JWT token stored in localStorage
 
+
 Axios interceptors for auth headers
