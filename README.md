@@ -1,8 +1,6 @@
 
 
 
-
-
 # Multi-Tenant E-Commerce Backend
 
 ## 🚀 Tech Stack
@@ -221,6 +219,9 @@ netlify deploy
 📱 Responsive Design
 Mobile-first approach
 
+
+
+..
 Tailwind CSS for responsive utilities
 
 Works on all screen sizes
